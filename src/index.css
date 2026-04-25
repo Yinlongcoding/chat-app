@@ -1,0 +1,234 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ═══════════════════════════════════════
+   Aurora Design System — CSS Variables
+   ═══════════════════════════════════════ */
+
+/* Dark Mode (default) */
+.dark {
+  --aurora-bg-primary: #0D0B14;
+  --aurora-bg-secondary: #151220;
+  --aurora-bg-sidebar: #110F1B;
+  --aurora-bg-glass: rgba(25, 22, 40, 0.75);
+  --aurora-bg-glass-hover: rgba(35, 30, 55, 0.5);
+  --aurora-bg-input: rgba(25, 22, 40, 0.6);
+  --aurora-bg-bubble-self: #7C3AED;
+  --aurora-bg-bubble-other: rgba(25, 22, 40, 0.8);
+  --aurora-text-primary: #E8E4F0;
+  --aurora-text-secondary: #8B83A0;
+  --aurora-text-muted: #5C5670;
+  --aurora-accent: #7C3AED;
+  --aurora-accent-cyan: #06B6D4;
+  --aurora-accent-mint: #34D399;
+  --aurora-border: rgba(124, 58, 237, 0.12);
+  --aurora-border-active: rgba(124, 58, 237, 0.4);
+  --aurora-glow: 0 0 20px rgba(124, 58, 237, 0.25);
+  --aurora-glow-strong: 0 0 30px rgba(124, 58, 237, 0.4);
+  --aurora-scrollbar: rgba(124, 58, 237, 0.2);
+  --aurora-scrollbar-hover: rgba(124, 58, 237, 0.35);
+  --aurora-online: #34D399;
+  --aurora-badge-bg: #7C3AED;
+  --aurora-hover: rgba(124, 58, 237, 0.08);
+  --aurora-hover-strong: rgba(124, 58, 237, 0.15);
+}
+
+/* Light Mode */
+.light {
+  --aurora-bg-primary: #F8F6FF;
+  --aurora-bg-secondary: #FFFFFF;
+  --aurora-bg-sidebar: #F3F0FA;
+  --aurora-bg-glass: rgba(255, 255, 255, 0.8);
+  --aurora-bg-glass-hover: rgba(124, 58, 237, 0.06);
+  --aurora-bg-input: #EDE9FE;
+  --aurora-bg-bubble-self: #7C3AED;
+  --aurora-bg-bubble-other: #FFFFFF;
+  --aurora-text-primary: #1E1B2E;
+  --aurora-text-secondary: #6B6580;
+  --aurora-text-muted: #9B95A8;
+  --aurora-accent: #7C3AED;
+  --aurora-accent-cyan: #0891B2;
+  --aurora-accent-mint: #059669;
+  --aurora-border: rgba(124, 58, 237, 0.1);
+  --aurora-border-active: rgba(124, 58, 237, 0.3);
+  --aurora-glow: 0 0 20px rgba(124, 58, 237, 0.15);
+  --aurora-glow-strong: 0 0 30px rgba(124, 58, 237, 0.25);
+  --aurora-scrollbar: rgba(124, 58, 237, 0.15);
+  --aurora-scrollbar-hover: rgba(124, 58, 237, 0.3);
+  --aurora-online: #059669;
+  --aurora-badge-bg: #7C3AED;
+  --aurora-hover: rgba(124, 58, 237, 0.05);
+  --aurora-hover-strong: rgba(124, 58, 237, 0.1);
+}
+
+/* ═══════════════════════════════════════
+   Scrollbar — Aurora themed
+   ═══════════════════════════════════════ */
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--aurora-scrollbar);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--aurora-scrollbar-hover);
+}
+
+/* ═══════════════════════════════════════
+   Aurora Gradient Utilities
+   ═══════════════════════════════════════ */
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .aurora-gradient-text {
+    background: linear-gradient(135deg, #7C3AED, #06B6D4, #34D399);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .aurora-gradient-border {
+    position: relative;
+  }
+  .aurora-gradient-border::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, #7C3AED, #06B6D4);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  .aurora-glass {
+    background: var(--aurora-bg-glass);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  .aurora-glass-strong {
+    background: var(--aurora-bg-glass);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+  }
+
+  .aurora-glow {
+    box-shadow: var(--aurora-glow);
+  }
+
+  .aurora-glow-strong {
+    box-shadow: var(--aurora-glow-strong);
+  }
+}
+
+/* ═══════════════════════════════════════
+   Animations
+   ═══════════════════════════════════════ */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-in-left {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes slide-in-right {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes aurora-float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -20px) scale(1.05); }
+  66% { transform: translate(-20px, 15px) scale(0.95); }
+}
+
+@keyframes aurora-pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes aurora-shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes slide-up {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.2s ease-out;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.3s ease-out;
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.3s ease-out;
+}
+
+.animate-slide-in {
+  animation: slide-in-left 0.3s ease-out;
+}
+
+.animate-aurora-float {
+  animation: aurora-float 8s ease-in-out infinite;
+}
+
+.animate-aurora-float-delayed {
+  animation: aurora-float 10s ease-in-out 2s infinite;
+}
+
+.animate-aurora-pulse {
+  animation: aurora-pulse 4s ease-in-out infinite;
+}
+
+/* Drawer overlay */
+.drawer-overlay {
+  animation: fade-in 0.3s ease-out;
+}
+
+.drawer-content {
+  animation: slide-in-right 0.3s ease-out;
+}
