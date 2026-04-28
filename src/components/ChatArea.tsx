@@ -47,7 +47,9 @@ export const ChatArea: React.FC<ChatAreaProps> = ({ isMobile, onMobileBack }) =>
   const navigate = useNavigate();
 
   const isDark = theme === 'dark';
-  const showInfo = /\/info$/.test(location.pathname);
+  const routeChatId = getRouteChatId(location.pathname);
+  const currentChatId = routeChatId || activeChat;
+  const showInfo = Boolean(currentChatId && /\/info$/.test(location.pathname));
 
   const c = isDark
     ? {
@@ -93,28 +95,28 @@ export const ChatArea: React.FC<ChatAreaProps> = ({ isMobile, onMobileBack }) =>
         hover: 'rgba(124, 58, 237, 0.05)',
       };
 
-  const chat = chats.find(ch => ch.id === activeChat);
-  const chatMessages = (activeChat ? messages[activeChat] : []) || [];
+  const chat = chats.find(ch => ch.id === currentChatId);
+  const chatMessages = (currentChatId ? messages[currentChatId] : []) || [];
   const filtered = showSearch && searchMsg
     ? chatMessages.filter(message => message.content.toLowerCase().includes(searchMsg.toLowerCase()))
     : chatMessages;
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [chatMessages.length, activeChat]);
+  }, [chatMessages.length, currentChatId]);
 
   useEffect(() => {
     setShowSearch(false);
     setSearchMsg('');
     setReplyTo(null);
-  }, [activeChat]);
+  }, [currentChatId]);
 
   const handleSend = () => {
-    if (!input.trim() || !activeChat) return;
+    if (!input.trim() || !currentChatId) return;
 
     dispatch({
       type: 'SEND_MESSAGE',
-      payload: { chatId: activeChat, content: input.trim(), replyTo: replyTo?.id },
+      payload: { chatId: currentChatId, content: input.trim(), replyTo: replyTo?.id },
     });
 
     setInput('');
@@ -130,7 +132,7 @@ export const ChatArea: React.FC<ChatAreaProps> = ({ isMobile, onMobileBack }) =>
     }
   };
 
-  if (!activeChat || !chat) {
+  if (!currentChatId || !chat) {
     return <EmptyState c={c} />;
   }
 
@@ -160,8 +162,8 @@ export const ChatArea: React.FC<ChatAreaProps> = ({ isMobile, onMobileBack }) =>
     }
   });
 
-  const openInfoPage = () => navigate(`/app/chats/${activeChat}/info`);
-  const closeInfoPage = () => navigate(`/app/chats/${activeChat}`);
+  const openInfoPage = () => navigate(`/app/chats/${currentChatId}/info`);
+  const closeInfoPage = () => navigate(`/app/chats/${currentChatId}`);
 
   const chatPage = (
     <div className="flex h-full w-full flex-col" style={{ backgroundColor: c.bg }}>
@@ -448,6 +450,11 @@ export const ChatArea: React.FC<ChatAreaProps> = ({ isMobile, onMobileBack }) =>
     </div>
   );
 };
+
+function getRouteChatId(pathname: string) {
+  const match = pathname.match(/^\/app\/chats\/([^/]+)/);
+  return match ? decodeURIComponent(match[1]) : null;
+}
 
 const EmptyState: React.FC<{ c: Record<string, string> }> = ({ c }) => (
   <div className="flex h-full w-full flex-col items-center justify-center" style={{ backgroundColor: c.bg }}>
