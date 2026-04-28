@@ -1,0 +1,204 @@
+{
+  "users": [
+    {
+      "id": "me",
+      "username": "me",
+      "displayName": "Me",
+      "avatarColor": "#2AABEE",
+      "status": "online",
+      "bio": "Using TeleChat",
+      "phone": "+1 415 555 0138"
+    },
+    {
+      "id": "u1",
+      "username": "alice",
+      "displayName": "Alice Chen",
+      "avatarColor": "#E91E63",
+      "status": "online",
+      "bio": "Product designer",
+      "lastSeenOffsetMinutes": 0
+    },
+    {
+      "id": "u2",
+      "username": "bob",
+      "displayName": "Bob Wang",
+      "avatarColor": "#4CAF50",
+      "status": "recently",
+      "bio": "Full-stack engineer",
+      "lastSeenOffsetMinutes": 30
+    },
+    {
+      "id": "u3",
+      "username": "carol",
+      "displayName": "Carol Liu",
+      "avatarColor": "#FF9800",
+      "status": "offline",
+      "bio": "Product manager",
+      "lastSeenOffsetMinutes": 120
+    },
+    {
+      "id": "u4",
+      "username": "dave",
+      "displayName": "Dave Zhang",
+      "avatarColor": "#9C27B0",
+      "status": "online",
+      "bio": "Data analyst",
+      "lastSeenOffsetMinutes": 0
+    },
+    {
+      "id": "u5",
+      "username": "eve",
+      "displayName": "Eve Li",
+      "avatarColor": "#00BCD4",
+      "status": "offline",
+      "bio": "Frontend developer",
+      "lastSeenOffsetMinutes": 1440
+    }
+  ],
+  "messages": {
+    "c1": [
+      { "id": "m1", "senderId": "u1", "content": "Hey! How have you been lately?", "offsetMinutes": 120, "status": "read" },
+      { "id": "m2", "senderId": "me", "content": "Pretty good! I am working on a new project. How about you?", "offsetMinutes": 120, "status": "read" },
+      { "id": "m3", "senderId": "u1", "content": "I am working on a UI design. It is a fun challenge.", "offsetMinutes": 90, "status": "read" },
+      { "id": "m4", "senderId": "me", "content": "Need a hand?", "offsetMinutes": 85, "status": "read" },
+      { "id": "m5", "senderId": "u1", "content": "If you are free, we can jump on a video call and review it together.", "offsetMinutes": 80, "status": "read" },
+      { "id": "m6", "senderId": "me", "content": "Sure. How about 8 PM tonight?", "offsetMinutes": 75, "status": "read" },
+      { "id": "m7", "senderId": "u1", "content": "Sounds good. See you then!", "offsetMinutes": 70, "status": "read" },
+      { "id": "m8", "senderId": "u1", "content": "By the way, what framework are you using for the project?", "offsetMinutes": 10, "status": "read" },
+      { "id": "m9", "senderId": "me", "content": "React + TypeScript with Tailwind CSS.", "offsetMinutes": 8, "status": "read" },
+      { "id": "m10", "senderId": "u1", "content": "Nice! I am learning React too.", "offsetMinutes": 5, "status": "read" }
+    ],
+    "c2": [
+      { "id": "m11", "senderId": "u2", "content": "Is the server deployed yet?", "offsetMinutes": 300, "status": "read" },
+      { "id": "m12", "senderId": "me", "content": "One last step left. The CI/CD workflow is acting up.", "offsetMinutes": 240, "status": "read" },
+      { "id": "m13", "senderId": "u2", "content": "GitHub Actions? I have run into something similar before.", "offsetMinutes": 240, "status": "read" },
+      { "id": "m14", "senderId": "me", "content": "Yes. How did you fix it?", "offsetMinutes": 180, "status": "read" },
+      { "id": "m15", "senderId": "u2", "content": "Adding NODE_ENV=production inside the workflow did it for me.", "offsetMinutes": 180, "status": "read" },
+      { "id": "m16", "senderId": "me", "content": "Wow, that worked. Thank you!", "offsetMinutes": 120, "status": "read" },
+      { "id": "m17", "senderId": "u2", "content": "Anytime. Next time, read the docs twice.", "offsetMinutes": 30, "status": "read" }
+    ],
+    "c3": [
+      { "id": "m18", "senderId": "u3", "content": "Have we locked the product review time for next week?", "offsetMinutes": 1440, "status": "read" },
+      { "id": "m19", "senderId": "me", "content": "Wednesday at 3 PM in Conference Room B.", "offsetMinutes": 1440, "status": "read" },
+      { "id": "m20", "senderId": "u3", "content": "Great. I will prepare the PRD in advance.", "offsetMinutes": 1440, "status": "read" },
+      { "id": "m21", "senderId": "u3", "content": "Quick question: should we use Figma or Axure for the prototype?", "offsetMinutes": 45, "status": "delivered" }
+    ],
+    "c4": [
+      { "id": "m22", "senderId": "me", "content": "Hi everyone! I am the newest member here.", "offsetMinutes": 4320, "status": "read" },
+      { "id": "m23", "senderId": "u1", "content": "Welcome aboard!", "offsetMinutes": 4320, "status": "read" },
+      { "id": "m24", "senderId": "u2", "content": "Welcome to the frontend dev group!", "offsetMinutes": 4320, "status": "read" },
+      { "id": "m25", "senderId": "u4", "content": "Any good React learning resources lately?", "offsetMinutes": 360, "status": "read" },
+      { "id": "m26", "senderId": "u1", "content": "The latest official docs are excellent. Highly recommended.", "offsetMinutes": 300, "status": "read" },
+      { "id": "m27", "senderId": "me", "content": "The new React docs are really well written, with lots of practical examples.", "offsetMinutes": 240, "status": "read" },
+      { "id": "m28", "senderId": "u2", "content": "Kent C. Dodds' blog is also consistently high quality.", "offsetMinutes": 180, "status": "read" },
+      { "id": "m29", "senderId": "u5", "content": "What do you all prefer: Zustand or Redux Toolkit?", "offsetMinutes": 20, "status": "read" },
+      { "id": "m30", "senderId": "u4", "content": "I personally prefer Zustand. The API is cleaner.", "offsetMinutes": 15, "status": "read" },
+      { "id": "m31", "senderId": "u1", "content": "Agreed. Zustand is quick to pick up and great for smaller projects.", "offsetMinutes": 5, "status": "read" }
+    ],
+    "c5": [
+      { "id": "m32", "senderId": "u4", "content": "TeleChat Tech Channel is officially live!", "offsetMinutes": 10080, "status": "read" },
+      { "id": "m33", "senderId": "u4", "content": "React 18 Highlights\nConcurrent rendering is now available, and useTransition plus useDeferredValue help keep interfaces responsive.", "offsetMinutes": 7200, "status": "read" },
+      { "id": "m34", "senderId": "u4", "content": "TypeScript 5.0 Released\nStandard decorators are supported, and const type parameter inference has been improved.", "offsetMinutes": 4320, "status": "read" },
+      { "id": "m35", "senderId": "u4", "content": "Daily Question\nWhat is the difference between useCallback and useMemo?", "offsetMinutes": 720, "status": "read" },
+      { "id": "m36", "senderId": "u4", "content": "Today in engineering: Understanding the JavaScript event loop in depth.", "offsetMinutes": 2, "status": "read" }
+    ],
+    "c6": [
+      { "id": "m37", "senderId": "u5", "content": "Hi, do you have time for a project collaboration?", "offsetMinutes": 2880, "status": "read" },
+      { "id": "m38", "senderId": "me", "content": "What kind of project? Tell me more.", "offsetMinutes": 2880, "status": "read" },
+      { "id": "m39", "senderId": "u5", "content": "It is an online education platform. Mostly frontend work.", "offsetMinutes": 2880, "status": "read" },
+      { "id": "m40", "senderId": "me", "content": "Sounds interesting. What is the stack?", "offsetMinutes": 1440, "status": "read" },
+      { "id": "m41", "senderId": "u5", "content": "Next.js + Tailwind on the frontend, Nest.js on the backend.", "offsetMinutes": 480, "status": "delivered" }
+    ]
+  },
+  "chats": [
+    {
+      "id": "c1",
+      "type": "private",
+      "name": "Alice Chen",
+      "avatarColor": "#E91E63",
+      "members": ["me", "u1"],
+      "unreadCount": 0,
+      "pinned": true,
+      "muted": false,
+      "createdOffsetDays": 30
+    },
+    {
+      "id": "c2",
+      "type": "private",
+      "name": "Bob Wang",
+      "avatarColor": "#4CAF50",
+      "members": ["me", "u2"],
+      "unreadCount": 1,
+      "pinned": false,
+      "muted": false,
+      "createdOffsetDays": 20
+    },
+    {
+      "id": "c3",
+      "type": "private",
+      "name": "Carol Liu",
+      "avatarColor": "#FF9800",
+      "members": ["me", "u3"],
+      "unreadCount": 2,
+      "pinned": false,
+      "muted": false,
+      "createdOffsetDays": 15
+    },
+    {
+      "id": "c4",
+      "type": "group",
+      "name": "Frontend Dev Lounge",
+      "avatarColor": "#2AABEE",
+      "members": ["me", "u1", "u2", "u4", "u5"],
+      "unreadCount": 3,
+      "pinned": true,
+      "muted": false,
+      "description": "Share frontend development ideas and discuss technical questions.",
+      "createdOffsetDays": 60
+    },
+    {
+      "id": "c5",
+      "type": "channel",
+      "name": "Tech Weekly",
+      "avatarColor": "#9C27B0",
+      "members": ["me", "u4"],
+      "unreadCount": 5,
+      "pinned": false,
+      "muted": false,
+      "description": "Daily curated engineering articles and programming news.",
+      "subscriberCount": 1247,
+      "createdOffsetDays": 90
+    },
+    {
+      "id": "c6",
+      "type": "private",
+      "name": "Eve Li",
+      "avatarColor": "#00BCD4",
+      "members": ["me", "u5"],
+      "unreadCount": 0,
+      "pinned": false,
+      "muted": true,
+      "createdOffsetDays": 10
+    }
+  ],
+  "wallet": {
+    "balance": 1240.5,
+    "currency": "USD",
+    "transactions": [
+      {
+        "id": "w_1",
+        "type": "deposit",
+        "amount": 250,
+        "offsetMinutes": 1440,
+        "note": "Apple Pay top up"
+      },
+      {
+        "id": "w_2",
+        "type": "withdraw",
+        "amount": 89.5,
+        "offsetMinutes": 360,
+        "note": "Transfer to Chase"
+      }
+    ]
+  }
+}

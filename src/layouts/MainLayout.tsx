@@ -1,144 +1,130 @@
 import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
+import { MobilePageStack } from '../components/MobilePageStack';
 import { Sidebar } from '../components/Sidebar';
 import { ChatArea } from '../components/ChatArea';
+import { WalletPage } from '../pages/WalletPage';
+import { ContactDetailPage } from '../pages/ContactDetailPage';
+import { SettingsPage } from '../pages/SettingsPage';
 import { Menu } from 'lucide-react';
 
 export const MainLayout: React.FC = () => {
   const { state, dispatch } = useApp();
   const { theme, sidebarOpen, activeChat } = state;
-  const [showMobileDrawer, setShowMobileDrawer] = useState(false);
-  // 同步初始化，避免先渲染桌面版再切移动版导致闪烁
   const [isMobile, setIsMobile] = useState(() => window.innerWidth < 768);
-  // 移动端默认展开抽屉（显示聊天列表）
-  const [drawerInitialized, setDrawerInitialized] = useState(false);
-  const [showChatInfo, setShowChatInfo] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const isDark = theme === 'dark';
+  const routeChatId = getRouteChatId(location.pathname);
+  const isWalletRoute = location.pathname === '/app/wallet';
+  const isSettingsRoute = location.pathname === '/app/settings';
+  const isContactRoute = /^\/app\/contacts\/[^/]+$/.test(location.pathname);
+  const isRootChatsRoute = location.pathname === '/app/chats';
 
   useEffect(() => {
     const checkMobile = () => {
-      const mobile = window.innerWidth < 768;
-      setIsMobile(mobile);
-      if (!mobile) {
-        setShowMobileDrawer(false);
-      }
+      setIsMobile(window.innerWidth < 768);
     };
-
-    // 移动端首次加载时自动展开抽屉
-    if (!drawerInitialized && isMobile) {
-      setShowMobileDrawer(true);
-      setDrawerInitialized(true);
-    }
 
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
-  }, [isMobile, drawerInitialized]);
+  }, []);
 
-  // 移动端：选中聊天时自动关闭抽屉，显示聊天区
   useEffect(() => {
-    if (activeChat && isMobile) {
-      setShowMobileDrawer(false);
+    if (isWalletRoute || isSettingsRoute || isContactRoute) {
+      return;
     }
-  }, [activeChat, isMobile]);
 
-  // 移动端：切换聊天时关闭详情面板
-  useEffect(() => {
-    setShowChatInfo(false);
-  }, [activeChat]);
+    const nextActiveChat = isRootChatsRoute ? null : routeChatId;
+
+    if (activeChat !== nextActiveChat) {
+      dispatch({ type: 'SET_ACTIVE_CHAT', payload: nextActiveChat });
+    }
+  }, [activeChat, dispatch, isContactRoute, isRootChatsRoute, isSettingsRoute, isWalletRoute, routeChatId]);
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', theme === 'dark');
     document.documentElement.classList.toggle('light', theme === 'light');
   }, [theme]);
 
-  const openMobileDrawer = () => {
-    setShowMobileDrawer(true);
-    dispatch({ type: 'SET_ACTIVE_CHAT', payload: null });
+  const handleMobileBack = () => {
+    navigate('/app/chats');
   };
 
-  // Aurora colors
-  const colors = isDark ? {
-    bg: '#0D0B14',
-    sidebarBg: '#110F1B',
-    menuBg: 'rgba(20, 17, 35, 0.8)',
-    menuText: '#E8E4F0',
-    overlay: 'rgba(0, 0, 0, 0.5)',
-  } : {
-    bg: '#F8F6FF',
-    sidebarBg: '#F3F0FA',
-    menuBg: 'rgba(255, 255, 255, 0.85)',
-    menuText: '#1E1B2E',
-    overlay: 'rgba(0, 0, 0, 0.3)',
-  };
+  const colors = isDark
+    ? {
+        bg: '#0D0B14',
+        sidebarBg: '#110F1B',
+        menuBg: 'rgba(20, 17, 35, 0.8)',
+        menuText: '#E8E4F0',
+      }
+    : {
+        bg: '#F8F6FF',
+        sidebarBg: '#F3F0FA',
+        menuBg: 'rgba(255, 255, 255, 0.85)',
+        menuText: '#1E1B2E',
+      };
+
+  const detailContent = isWalletRoute ? <WalletPage /> : isSettingsRoute ? <SettingsPage /> : isContactRoute ? <ContactDetailPage /> : <ChatArea isMobile={isMobile} onMobileBack={handleMobileBack} />;
+  const mobileContentVisible = !isRootChatsRoute;
 
   return (
-    <div
-      className="flex h-screen w-screen overflow-hidden"
-      style={{ backgroundColor: colors.bg, color: colors.menuText }}
-    >
-      {/* Mobile: Floating menu button */}
-      {isMobile && activeChat && (
-        <button
-          onClick={openMobileDrawer}
-          className="fixed top-4 left-4 z-50 p-2.5 rounded-xl shadow-lg cursor-pointer transition-all duration-200"
-          style={{
-            background: colors.menuBg,
-            backdropFilter: 'blur(16px)',
-            border: '1px solid rgba(124, 58, 237, 0.15)',
-            boxShadow: '0 0 15px rgba(124, 58, 237, 0.1), 0 4px 12px rgba(0,0,0,0.15)',
-            color: colors.menuText,
-          }}
-        >
-          <Menu size={20} />
-        </button>
-      )}
-
-      {/* Mobile: Drawer Overlay */}
-      {isMobile && showMobileDrawer && (
-        <div
-          className="fixed inset-0 z-40 drawer-overlay"
-          style={{ backgroundColor: colors.overlay }}
-          onClick={() => setShowMobileDrawer(false)}
+    <div className="flex h-screen w-screen overflow-hidden" style={{ backgroundColor: colors.bg, color: colors.menuText }}>
+      {isMobile ? (
+        <MobilePageStack
+          activeIndex={mobileContentVisible ? 1 : 0}
+          pages={[
+            {
+              key: 'chat-list',
+              backgroundColor: colors.sidebarBg,
+              content: <Sidebar isMobile />,
+            },
+            {
+              key: isWalletRoute ? 'wallet-page' : isSettingsRoute ? 'settings-page' : isContactRoute ? 'contact-page' : 'chat-window',
+              backgroundColor: colors.bg,
+              content: detailContent,
+            },
+          ]}
         />
-      )}
+      ) : (
+        <>
+          <button
+            onClick={() => dispatch({ type: 'TOGGLE_SIDEBAR' })}
+            className="fixed left-4 top-4 z-50 rounded-xl border p-2.5 shadow-lg transition-all duration-200 hover:scale-105 active:scale-95"
+            style={{
+              background: colors.menuBg,
+              backdropFilter: 'blur(16px)',
+              borderColor: 'rgba(124, 58, 237, 0.15)',
+              boxShadow: '0 0 15px rgba(124, 58, 237, 0.1), 0 4px 12px rgba(0,0,0,0.15)',
+              color: colors.menuText,
+            }}
+            aria-label="Toggle sidebar"
+          >
+            <Menu size={20} />
+          </button>
 
-      {/* Mobile: Drawer Sidebar (Right side) */}
-      {isMobile && (
-        <div
-          className={`fixed top-0 right-0 h-full z-50 drawer-content transition-transform duration-300 ease-in-out ${
-            showMobileDrawer ? 'translate-x-0' : 'translate-x-full'
-          }`}
-          style={{
-            width: '100vw',
-            backgroundColor: colors.sidebarBg,
-          }}
-        >
-          <Sidebar />
-        </div>
-      )}
+          <div
+            className={`
+              flex h-full flex-shrink-0 overflow-hidden transition-all duration-200 ease-in-out
+              ${sidebarOpen ? 'w-80 lg:w-96' : 'w-0'}
+            `}
+            style={{ minWidth: sidebarOpen ? undefined : 0 }}
+          >
+            <Sidebar isMobile={false} />
+          </div>
 
-      {/* Desktop: Sidebar */}
-      {!isMobile && (
-        <div
-          className={`
-            flex-shrink-0 transition-all duration-200 ease-in-out
-            ${sidebarOpen ? 'w-80 lg:w-96' : 'w-0'}
-            h-full overflow-hidden
-            ${activeChat ? 'hidden lg:flex' : 'flex'}
-          `}
-          style={{ minWidth: sidebarOpen ? undefined : 0 }}
-        >
-          <Sidebar />
-        </div>
+          <div className="flex-1 h-full overflow-hidden flex-col">
+            {detailContent}
+          </div>
+        </>
       )}
-
-      {/* Chat Area */}
-      <div className="flex-1 h-full overflow-hidden flex-col">
-        <ChatArea
-          onShowInfo={isMobile ? setShowChatInfo : undefined}
-        />
-      </div>
     </div>
   );
 };
+
+function getRouteChatId(pathname: string) {
+  const match = pathname.match(/^\/app\/chats\/([^/]+)/);
+  return match ? decodeURIComponent(match[1]) : null;
+}

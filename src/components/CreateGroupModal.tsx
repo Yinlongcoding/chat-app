@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { Avatar } from './Avatar';
-import { MOCK_USERS } from '../data/mockData';
 import { X, Search } from 'lucide-react';
 
 interface Props {
@@ -9,7 +8,7 @@ interface Props {
 }
 
 export const CreateGroupModal: React.FC<Props> = ({ onClose }) => {
-  const { dispatch, state } = useApp();
+  const { dispatch, state, users } = useApp();
   const { theme } = state;
   const [name, setName] = useState('');
   const [desc, setDesc] = useState('');
@@ -42,7 +41,7 @@ export const CreateGroupModal: React.FC<Props> = ({ onClose }) => {
     checkBg: '#7C3AED',
   };
 
-  const contacts = MOCK_USERS.filter(u => u.id !== 'me').filter(u =>
+  const contacts = users.filter(u => u.id !== 'me').filter(u =>
     u.displayName.toLowerCase().includes(search.toLowerCase())
   );
 
@@ -107,7 +106,7 @@ export const CreateGroupModal: React.FC<Props> = ({ onClose }) => {
         {selected.length > 0 && (
           <div className="flex gap-2 mb-3 overflow-x-auto no-scrollbar">
             {selected.map(id => {
-              const u = MOCK_USERS.find(u => u.id === id)!;
+              const u = users.find(user => user.id === id)!;
               return (
                 <button key={id} onClick={() => toggle(id)} className="flex flex-col items-center gap-1 flex-shrink-0 cursor-pointer">
                   <div className="relative">
